@@ -45,10 +45,31 @@ describe Board do
       end
     end
 
+    it "maps x/y coordinates correctly" do
+      ("A".."H").each_with_index do |l, i|
+        @board.to_x_coord(l).must_equal(i)
+      end
+      (1..8).each_with_index do |n, i|
+        @board.to_y_coord(n).must_equal(i)
+      end
+    end
+
     it "must move the pieces to the correct spot" do
-      skip("not implemented")
-      @board.move("knight").to("B", "7")
-      @board.layout()[1][7].must_equal("K")
+      expected_moves = {
+        "rook_1" => ["A", "5"],
+        "knight_1" => ["C", "4"],
+        "bishop_1" => ["F", "5"],
+        "pawn_4" => ["D", "3"],
+        "king" => ["D", "2"],
+        "queen" => ["E", "5"]
+      }
+      expected_moves.each do |k,v|
+        x = @board.to_x_coord(v[0])
+        y = @board.to_y_coord(v[1])
+        display_name = @board.display_name(k)
+        @board.move(k).to(v[0], v[1])
+        @board.layout()[x][y].must_equal(display_name)
+      end
     end
   end
 end

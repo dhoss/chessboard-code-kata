@@ -1,6 +1,7 @@
 class Board
 
   def initialize
+    @moving_piece = ""
     @grid = Array.new(8,".").map{|row| Array.new(8, ".")}
   end
 
@@ -69,20 +70,25 @@ class Board
   end
 
   def move(piece)
-    return pieces(piece)
+    @moving_piece = piece
+    return self
   end
 
-  def pieces(piece)
-    pieces = {
-      "king" => "K",
-      "queen" => "Q",
-      "rook" => "R",
-      "bishop" => "B",
-      "knight" => "+",
-      "pawn" => "p"
-    }
+  def to(x, y)
+    @grid[to_x_coord(x)][to_y_coord(y)] = display_name(@moving_piece)
+  end
 
-    return pieces[piece]
+  def to_x_coord(x)
+    letter_map = {}
+    ("A".."H").each_with_index do |l, i|
+      letter_map[l] = i
+    end
+
+    return letter_map[x]
+  end
+
+  def to_y_coord(y)
+    return y.to_i-1
   end
 
   # return grid unless updates are passed in
