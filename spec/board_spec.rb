@@ -55,6 +55,7 @@ describe Board do
     end
 
     it "must move the pieces to the correct spot" do
+      old_layout = @board.layout()
       expected_moves = {
         "rook_1" => ["A", "5"],
         "knight_1" => ["C", "4"],
@@ -63,12 +64,18 @@ describe Board do
         "king" => ["D", "2"],
         "queen" => ["E", "5"]
       }
+
+      ## make sure the pieces get moved to their new spots correctly
       expected_moves.each do |k,v|
         x = @board.to_x_coord(v[0])
         y = @board.to_y_coord(v[1])
         display_name = @board.display_name(k)
         @board.move(k).to(v[0], v[1])
         @board.layout()[x][y].must_equal(display_name)
+
+        ## also make sure that the pieces' original positions are vacant
+        sp = @board.starting_positions_by_key()[k]
+        old_layout[sp[0]][sp[1]].must_equal('.')
       end
     end
   end

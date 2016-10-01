@@ -1,8 +1,10 @@
 class Board
 
   def initialize
+    @moving_piece_old_position = []
     @moving_piece = ""
     @grid = Array.new(8,".").map{|row| Array.new(8, ".")}
+    init_pieces()
   end
 
   def starting_positions_by_key
@@ -70,12 +72,15 @@ class Board
   end
 
   def move(piece)
+    @moving_piece_old_position = starting_positions_by_key()[piece]
     @moving_piece = piece
     return self
   end
 
   def to(x, y)
+    old_position = @moving_piece_old_position
     @grid[to_x_coord(x)][to_y_coord(y)] = display_name(@moving_piece)
+    @grid[old_position[0]][old_position[1]] = "."
   end
 
   def to_x_coord(x)
