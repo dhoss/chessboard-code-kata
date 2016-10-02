@@ -1,39 +1,12 @@
 class Board
 
+  ROWS = 8
+  COLUMNS = 8
+  BOARD_SIZE = ROWS*COLUMNS
+
   def initialize
-    @moving_piece_old_position = []
-    @moving_piece = ""
-    @grid = Array.new(8,".").map{|row| Array.new(8, ".")}
-    init_pieces()
-  end
-
-  def starting_positions_by_key
-    return {
-      "rook_1" =>[0,0],
-      "knight_1" => [0,1],
-      "bishop_1" => [0,2],
-      "king" => [0,3],
-      "queen" => [0, 4],
-      "bishop_2" => [0, 5],
-      "knight_2" => [0, 6],
-      "rook_2" => [0, 7],
-      "pawn_1" => [1,0],
-      "pawn_2" => [1,1],
-      "pawn_3" => [1,2],
-      "pawn_4" => [1,3],
-      "pawn_5" => [1,4],
-      "pawn_6" => [1,5],
-      "pawn_7" => [1,6],
-      "pawn_8" => [1,7]
-    }
-  end
-
-  def starting_positions_by_coords
-    return starting_positions_by_key().invert
-  end
-
-  def display_name(key)
-    names = {
+    @grid = Array.new(64, "[ ]")
+    @names = {
       "rook_1" =>"R",
       "knight_1" => "+",
       "bishop_1" => "B",
@@ -51,53 +24,23 @@ class Board
       "pawn_7" => "P",
       "pawn_8" => "P"
     }
-
-    return names[key]
-  end
-
-  def init_pieces()
-    starting_positions_by_coords().each do |k,v|
-      @grid[k[0]][k[1]] = display_name(v)
-    end
   end
 
   def draw
-    x_labels = ["A", "B", "C", "D", "E", "F", "G", "H"]
-    y_labels = ["1", "2", "3", "4", "5", "6", "7", "8"]
-    print "\t", x_labels.join("\t"), "\n"
-    print "\t", "-\t" * 8, "\n"
-    @grid.each_with_index do |grid, i|
-      print "#{y_labels[i]}|\t", grid.join("\t"), "\n"
-    end
+
   end
 
-  def move(piece)
-    @moving_piece_old_position = starting_positions_by_key()[piece]
-    @moving_piece = piece
-    return self
-  end
-
-  def to(x, y)
-    old_position = @moving_piece_old_position
-    @grid[to_x_coord(x)][to_y_coord(y)] = display_name(@moving_piece)
-    @grid[old_position[0]][old_position[1]] = "."
-  end
-
-  def to_x_coord(x)
-    letter_map = {}
-    ("A".."H").each_with_index do |l, i|
-      letter_map[l] = i
-    end
-
-    return letter_map[x]
-  end
-
-  def to_y_coord(y)
-    return y.to_i-1
-  end
-
-  # return grid unless updates are passed in
   def layout
     return @grid
   end
+
+  def row_number_for(index)
+    return (index / ROWS).floor
+  end
+
+  def column_number_for(index)
+    row = row_number(index)
+    return index - row * COLUMNS
+  end
+
 end
