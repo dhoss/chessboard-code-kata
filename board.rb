@@ -43,4 +43,18 @@ class Board
     return index - row * COLUMNS
   end
 
+  def position_map
+    map = {}
+    board_index = 0
+    ("A".."H").each_with_index do |letter, i|
+      0.upto(7){|index|
+        key = "#{letter}#{index+1}"
+        map[key] = board_index
+        board_index += 1
+      }
+    end
+
+    return map
+  end
+
 end
