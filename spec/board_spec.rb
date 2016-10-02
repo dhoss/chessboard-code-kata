@@ -46,12 +46,18 @@ describe Board do
     end
 
     it "must determine rows from indexes correctly" do
-      expected_first_row = 0
-      expected_second_row = 1
-      expected_last_row = 7
-      @board.row_number_for(1).must_equal(expected_first_row)
-      @board.row_number_for(9).must_equal(expected_second_row)
-      @board.row_number_for(63).must_equal(expected_last_row)
+      0.upto(63){|index|
+        expected = (index/8).floor
+        @board.row_number_for(index).must_equal(expected)
+      }
+    end
+
+    it "must determine columns from indexes correctly" do
+      0.upto(63){|index|
+        row = (index/8).floor
+        expected = index - row * 8
+        @board.column_number_for(index).must_equal(expected)
+      }
     end
 
     it "must determine a piece's location correctly" do

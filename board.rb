@@ -39,7 +39,7 @@ class Board
   end
 
   def column_number_for(index)
-    row = row_number(index)
+    row = row_number_for(index)
     return index - row * COLUMNS
   end
 
