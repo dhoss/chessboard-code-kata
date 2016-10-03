@@ -8,36 +8,32 @@ describe Board do
   before do
     @board = Board.new()
     @expected_moves = {
-        "rook_1" => ["A", "5"],
-        "knight_1" => ["C", "4"],
-        "bishop_1" => ["F", "5"],
-        "pawn_4" => ["D", "3"],
-        "king" => ["D", "2"],
-        "queen" => ["E", "5"]
+        "rook_1" => "A5",
+        "knight_1" => "C4",
+        "bishop_1" => "F5",
+        "pawn_4" => "D3",
+        "king" => "D2",
+        "queen" => "E5"
     }
 
     @expected_starting = {
-        "rook_1" =>["A","1"],
-        "knight_1" => ["A","2"],
-        "bishop_1" => ["A","3"],
-        "king" => ["A","$"],
-        "queen" => ["A", "5"],
-        "bishop_2" => ["A", "6"],
-        "knight_2" => ["A", "7"],
-        "rook_2" => ["A", "8"],
-        "pawn_1" => ["B","1"],
-        "pawn_2" => ["B","2"],
-        "pawn_3" => ["B","3"],
-        "pawn_4" => ["B","4"],
-        "pawn_5" => ["B","5"],
-        "pawn_6" => ["B","6"],
-        "pawn_7" => ["B","7"],
-        "pawn_8" => ["B","8"]
+        "rook_1" =>"A1",
+        "knight_1" => "A2",
+        "bishop_1" => "A3",
+        "king" => "A4",
+        "queen" => "A5",
+        "bishop_2" => "A6",
+        "knight_2" => "A7",
+        "rook_2" => "A8",
+        "pawn_1" => "B1",
+        "pawn_2" => "B2",
+        "pawn_3" => "B3",
+        "pawn_4" => "B4",
+        "pawn_5" => "B5",
+        "pawn_6" => "B6",
+        "pawn_7" => "B7",
+        "pawn_8" => "B8"
       }
-  end
-
-  after do
-    #@board.draw()
   end
 
   describe "board layout" do
@@ -60,7 +56,7 @@ describe Board do
       }
     end
 
-    it "must map correctly" do
+    it "must map board correctly" do
       expected = {
        'A1' => 0,
        'A2' => 1,
@@ -134,8 +130,13 @@ describe Board do
 
     end
 
-    it "must determine a piece's location correctly" do
-
+    it "must map a piece's location correctly" do
+      @board.init()
+      @expected_starting.each do|k,v|
+        index = @board.position_map()[v]
+        @board.layout()[index].must_equal(@board.piece_names()[k])
+      end
+      @board.draw()
     end
 
     it "must move the pieces to the correct spot" do
