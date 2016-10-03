@@ -36,6 +36,10 @@ describe Board do
       }
   end
 
+  after do
+    @board.draw()
+  end
+
   describe "board layout" do
     it "must start with the correct number of elements" do
       @board.layout().length.must_equal 64
@@ -134,9 +138,8 @@ describe Board do
       @board.init()
       @expected_starting.each do|k,v|
         index = @board.position_map()[v]
-        @board.layout()[index].must_equal(@board.piece_names()[k])
+        @board.layout()[index].must_equal("[#{@board.piece_names()[k]}]")
       end
-      @board.draw()
     end
 
     it "must move the pieces to the correct spot" do

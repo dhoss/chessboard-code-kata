@@ -56,7 +56,7 @@ class Board
     starting = 0
     length = 8
     1.upto(8){|i|
-      print "#{i}\t", @grid.slice(starting, length).join("\t"), "\n"
+      print "#{i} ", @grid.slice(starting, length).join("\t"), "\n"
       starting += length
     }
     print "\t", [*("A".."H")].join("\t"), "\n"
@@ -65,7 +65,7 @@ class Board
   def init
     piece_map().each do |k,v|
       index = position_map()[v]
-      @grid[index] = @names[k]
+      @grid[index] = "[#{@names[k]}]"
     end
   end
 
