@@ -138,11 +138,23 @@ describe Board do
       @board.init()
       @expected_starting.each do|k,v|
         index = @board.position_map()[v]
-        @board.layout()[index].must_equal("[#{@board.piece_names()[k]}]")
+        @board.layout()[index].must_equal(@board.piece_names()[k])
       end
     end
 
     it "must move the pieces to the correct spot" do
+      @board.init()
+      @expected_moves.each do |k,v|
+        old_position = @expected_starting[k]
+        old_index = @board.position_map()[old_position]
+        index = @board.position_map()[v]
+        @board.move_to(k, v)
+        @board.layout()[index].must_equal(@board.piece_names()[k])
+
+        # make sure the old position is empty
+        @board.layout()[old_index].must_equal("[ ]")
+      end
+
     end
   end
 end

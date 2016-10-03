@@ -7,22 +7,22 @@ class Board
   def initialize
     @grid = Array.new(64, "[ ]")
     @names = {
-      "rook_1" =>"R",
-      "knight_1" => "+",
-      "bishop_1" => "B",
-      "king" => "K",
-      "queen" => "Q",
-      "bishop_2" => "B",
-      "knight_2" => "+",
-      "rook_2" => "R",
-      "pawn_1" => "P",
-      "pawn_2" => "P",
-      "pawn_3" => "P",
-      "pawn_4" => "P",
-      "pawn_5" => "P",
-      "pawn_6" => "P",
-      "pawn_7" => "P",
-      "pawn_8" => "P"
+      "rook_1" =>"[R]",
+      "knight_1" => "[+]",
+      "bishop_1" => "[B]",
+      "king" => "[K]",
+      "queen" => "[Q]",
+      "bishop_2" => "[B]",
+      "knight_2" => "[+]",
+      "rook_2" => "[R]",
+      "pawn_1" => "[P]",
+      "pawn_2" => "[P]",
+      "pawn_3" => "[P]",
+      "pawn_4" => "[P]",
+      "pawn_5" => "[P]",
+      "pawn_6" => "[P]",
+      "pawn_7" => "[P]",
+      "pawn_8" => "[P]"
     }
     @positions = piece_map()
   end
@@ -59,13 +59,13 @@ class Board
       print "#{i} ", @grid.slice(starting, length).join("\t"), "\n"
       starting += length
     }
-    print "\t", [*("A".."H")].join("\t"), "\n"
+    print "  ", [*("A".."H")].join("\t"), "\n"
   end
 
   def init
     piece_map().each do |k,v|
       index = position_map()[v]
-      @grid[index] = "[#{@names[k]}]"
+      @grid[index] = @names[k]
     end
   end
 
@@ -94,6 +94,16 @@ class Board
     end
 
     return map
+  end
+
+  def move_to(piece, position)
+    old_index = position_map()[piece_map()[piece]]
+    puts "OLD INDEX #{old_index}"
+    new_index = position_map()[position]
+    puts "NEW INDEX #{new_index}"
+    puts "STUFF AT OLD INDEX #{@grid[old_index]}"
+    @grid[new_index] = piece_names()[piece]
+    @grid[old_index] = "[ ]"
   end
 
 end
